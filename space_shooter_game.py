@@ -11,7 +11,7 @@ pygame.mixer.init()
 laser_sound = pygame.mixer.Sound(os.path.join("assets", "laser.wav"))
 explosion_sound = pygame.mixer.Sound(os.path.join("assets", "explosion.ogg"))
 
-WIDTH, HEIGHT = 750, 750
+WIDTH, HEIGHT = 850, 700
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Space Shooter 🚀☄️")
 
@@ -256,20 +256,26 @@ def main():
         score = player.move_lasers(-5, enemies, score)
 
 def main_menu():
-    title_font = pygame.font.SysFont('comicsans', 70)
-    run = True
+    title_font=pygame.font.SysFont('comicsans', 70)
+    run=True
     clock = pygame.time.Clock()
+    base_y = 350  
+    time_elapsed = 0
     while run:
-        WIN.blit(BG, (0, 0))
-        title_label = title_font.render("Click to Begin", 1, (255, 255, 255))
-        WIN.blit(title_label, (WIDTH // 2 - title_label.get_width() // 2, 350))
+        WIN.blit(BG, (0,0))
+        time_elapsed += 0.05  
+        float_offset = math.sin(time_elapsed * 2) * 10  
+        text_y = base_y + float_offset
+
+        title_label=title_font.render("Click the mouse to begin.", 1, (255,255,255))
+        WIN.blit(title_label,(WIDTH/2-title_label.get_width()/2, text_y))
         pygame.display.update()
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event==pygame.QUIT:
+                run=False
+            if event.type==pygame.MOUSEBUTTONDOWN:
                 main()
         clock.tick(60)
     pygame.quit()
-
+            
 main_menu()
